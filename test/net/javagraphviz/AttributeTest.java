@@ -7,41 +7,41 @@ import org.junit.Test;
 
 public class AttributeTest {
 
-	Attributes attributes;
+	Attrs attributes;
 	Component component;
 	
 	@Before
 	public void onSetUp() {
 		component = new Digraph("test");
-		this.attributes = new Attributes(component);
+		this.attributes = new Attrs(component);
 	}
 	
 	@Test
 	public void testAttribute() {
-		Attribute attribute = new Attribute(attributes,"rankdir");
+		Attr attribute = new Attr(attributes,"rankdir");
 		assertEquals("rankdir",attribute.name());
 		assertEquals(null,attribute.value());
 	}
 
 	@Test
 	public void testSetValue() {
-		component.attribute("rankdir").setValue("#999");
-		assertEquals("#999", component.attribute("rankdir").value());
+		component.attr("rankdir").value("#999");
+		assertEquals("#999", component.attr("rankdir").value().toString());
 		
 	}
 	
 	@Test
 	public void testSetValueWithNullRemovedAttribute() {
-		component.attribute("rankdir").setValue("#999");
-		component.attribute("rankdir").setValue(null);
-		assertEquals(0, component.attributes().total());
+		component.attr("rankdir").value("#999");
+		component.attr("rankdir").value(null);
+		assertEquals(0, component.attrs().total());
 	}
 	
 	@Test
 	public void testRemoveTheAttribute() { 
-		component.attribute("rankdir").setValue("#000");
-		component.attribute("rankdir").remove();
-		assertEquals(0, component.attributes().total());
+		component.attr("rankdir").value("#000");
+		component.attr("rankdir").remove();
+		assertEquals(0, component.attrs().total()); 
 	}
 
 }

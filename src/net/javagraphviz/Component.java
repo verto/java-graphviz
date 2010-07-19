@@ -12,14 +12,20 @@ public interface Component {
 	 * return the attribute of the component.
 	 * 
 	 */
-	Attribute attribute(String name);
+	Attr attr(String name);
 
-	Attributes attributes();
+	Attrs attrs();
 	
 	/**
 	 * name of the componenet.
 	 */
 	String name();
+	
+	
+	/**
+	 * output the component structure 
+	 */
+	String output();
 	
 	
 }

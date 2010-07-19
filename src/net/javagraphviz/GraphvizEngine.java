@@ -35,7 +35,8 @@ public class GraphvizEngine {
 	 */
 	public void output(String path) {
 		
-		
+		String dotContent = graph.output();
+	    
 	}
 
 	/**

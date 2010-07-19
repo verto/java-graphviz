@@ -1,5 +1,6 @@
 package net.javagraphviz;
 
+
 /**
  * the Node Component of graphviz tools.
  * 
@@ -10,31 +11,40 @@ public class Node implements Component {
 
 	private Graph graph;
 	private String name;
-	private Attributes attributes;
+	private Attrs attrs;
+	
+	
+	/**
+	 * node default.
+	 */
+	private Node(String name) { 
+		this.name = name;
+		this.attrs = new Attrs(this);
+	}
 	
 	/**
 	 * create a node with name
 	 */
 	public Node(String name, Graph graph) {
-		this.name = name;
+		this(name);
 		this.graph = graph;
-		this.attributes = new Attributes(this);
+		this.attr("label").value(this.name());
 	}
 	
 	/* 
 	 * @see net.javagraphviz.Component#attribute(java.lang.String)
 	 */
 	@Override
-	public Attribute attribute(String name) {
-		return this.attributes.get(name);
+	public Attr attr(String name) {
+		return this.attrs.get(name);
 	}
 
 	/* 
 	 * @see net.javagraphviz.Component#attributes()
 	 */
 	@Override
-	public Attributes attributes() {
-		return this.attributes;
+	public Attrs attrs() {
+		return this.attrs;
 	}
 	
 	/* 
@@ -67,6 +77,38 @@ public class Node implements Component {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String output() {
+		
+		StringBuffer xOut = new StringBuffer(this.name);
+	    StringBuffer xAttr = new StringBuffer("");
+	    String xSeparator = "";
+	    
+	    for (Attr attrs : this.attrs.list()) {   
+		      if  ("html".equals(attrs.name())) {
+			      xAttr.append(xSeparator + "label = " + attrs.value().toGv());
+		      }else {
+	          xAttr.append(xSeparator + attrs.name() + " = " + attrs.value().toGv());
+		      }
+	        xSeparator = ", ";
+	    }
+	      if (xAttr.length() > 0) {
+	        xOut.append(" [" + xAttr.toString() + "]");
+			}
+	      xOut.append(";");
+
+	      return(xOut.toString());
+		
+	}
+
+	
+	/**
+	 * create the node default
+	 */
+	static Node getDefault(String name) {
+		return new Node(name);
 	}
 	
 	

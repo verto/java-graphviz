@@ -7,17 +7,17 @@ import org.junit.Test;
 
 public class AttributesTest {
 
-	Attributes attributes;
+	Attrs attributes;
 	
 	@Before
 	public void onSetUp() {
-		attributes = new Attributes(new Digraph("test"));
+		attributes = new Attrs(new Digraph("test"));
 	}
 	
 	@Test
 	public void testGet() {
 		
-		Attribute attr = attributes.get("rankdir");
+		Attr attr = attributes.get("rankdir");
 		assertEquals("rankdir", attr.name());
 		assertEquals(null, attr.value());
 		
@@ -25,17 +25,16 @@ public class AttributesTest {
 	
 	@Test
 	public void testGetWithValue() { 
-		attributes.get("rankdir").setValue("#999");
-		Attribute attr = attributes.get("rankdir");
-		assertEquals("#999", attr.value());
+		attributes.get("rankdir").value("#999");
+		Attr attr = attributes.get("rankdir");
+		assertEquals("#999", attr.value().toString());
 	}
 	
 	@Test
 	public void testSetAttribute() { 
-		
-		Attribute attribute = new Attribute(attributes, "rankdir");
+		Attr attribute = new Attr(attributes, "rankdir");
 		attributes.set("rankdir", attribute);
-		assertEquals(attributes.total(), 1);
+		assertEquals(1, attributes.total());
 		assertEquals(attributes.get("rankdir"), attribute);
 	}
 

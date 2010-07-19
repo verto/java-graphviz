@@ -21,9 +21,4 @@ public class GraphvizEngineTest {
 		assertEquals("xdot",engine.type());
 	}
 
-	@Test
-	public void testOutput() {
-		fail("Not yet implemented");
-	}
-
 }

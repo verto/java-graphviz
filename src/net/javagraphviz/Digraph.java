@@ -1,6 +1,8 @@
 package net.javagraphviz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -14,7 +16,7 @@ public class Digraph implements Graph {
 
 	private String name;
 	
-	private Attributes attributes;
+	private Attrs attrs;
 	
 	/**
 	 * representation of general node attributes 
@@ -42,8 +44,8 @@ public class Digraph implements Graph {
 	 */
 	public Digraph(String name) {
 		this.name = name;
-		this.attributes = new Attributes(this);
-		this.nodeDefault = new Node("default",this);
+		this.attrs = new Attrs(this);
+		this.nodeDefault = Node.getDefault(name);
 		this.edgeDefault = Edge.getDefault(name);
 		this.nodes = new HashMap<String, Node>();
 		this.edges = new HashMap<String, Edge>();
@@ -52,16 +54,16 @@ public class Digraph implements Graph {
 	/* 
 	 * @see net.javagraphviz.Component#attribute(java.lang.String)
 	 */
-	public Attribute attribute(String key) {
-		return this.attributes.get(key);
+	public Attr attr(String key) {
+		return this.attrs.get(key);
 	}
 
 	/* 
 	 * @see net.javagraphviz.Component#attributes()
 	 */
 	@Override
-	public Attributes attributes() {
-		return this.attributes;
+	public Attrs attrs() {
+		return this.attrs;
 	}
 	
 	/**
@@ -71,8 +73,9 @@ public class Digraph implements Graph {
 		return this.name;
 	}
 
-	/**
-	 * attributes default of the nodes.
+	
+	/* 
+	 * @see net.javagraphviz.Graph#node()
 	 */
 	public Node node() {
 		return this.nodeDefault;
@@ -96,11 +99,86 @@ public class Digraph implements Graph {
 		return edge;
 	}
 
-	/**
-	 * attributes default of the edges.
+	
+	/* 
+	 * @see net.javagraphviz.Graph#edge()
 	 */
 	public Edge edge() {
 		return this.edgeDefault;
+	}
+
+	@Override
+	public List<Edge> edges() {
+		return new ArrayList<Edge>(this.edges.values());
+	}
+
+	@Override
+	public List<Node> nodes() {
+		return new ArrayList<Node>(this.nodes.values());
+	}
+
+	@Override
+	public String type() {
+		return "digraph";
+	}
+
+	@Override
+	public String output() {
+		
+		StringBuffer xDOTScript = new StringBuffer("");
+	    String xSeparator = "";
+	    StringBuffer xData = new StringBuffer("");
+	    
+	    // mount the graph attributes
+	    for (Attr attr : this.attrs.list()) {
+	    	xData.append(xSeparator + attr.name() + " = " + attr.value().toGv());
+	          xSeparator = ", ";
+	    }
+	    xDOTScript.append(" graph [" + xData + "];\n");
+	
+	    //reset variables
+	    xSeparator = "";
+	    xData = new StringBuffer("");
+	    
+	    // mount the node attributes
+	    for (Attr attr : this.node().attrs().list()) {
+	    	xData.append(xSeparator + attr.name() + " = " + attr.value().toGv());
+	          xSeparator = ", ";
+	    }
+	    xDOTScript.append(" node [" + xData + "];\n");
+	    
+	    //reset variables
+	    xSeparator = "";
+	    xData = new StringBuffer("");
+	    
+	    // mount the node attributes
+	    for (Attr attr : this.edge().attrs().list()) {
+	    	xData.append(xSeparator + attr.name() + " = " + attr.value().toGv());
+	          xSeparator = ", ";
+	    }
+	    xDOTScript.append(" edge [" + xData + "];\n");
+		
+	    
+	    // mount components output
+	    // nodes
+	    for (Component component : this.nodes()) {
+	    	xDOTScript.append(" " + component.output() + "\n");
+	    }
+	    //edges
+	    for (Component component : this.edges()) {
+	    	xDOTScript.append(" " + component.output() + "\n");
+	    }
+	    
+	    // structure final
+	    xDOTScript = new StringBuffer(this.type())
+	    				          .append(" ")
+	    				          .append(this.name())
+	    				          .append(" {\n")
+	    				          .append(xDOTScript)
+	    				          .append("}");
+	    
+	    return (xDOTScript.toString());
+		
 	}
 
 	

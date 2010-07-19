@@ -17,7 +17,7 @@ public class DigraphTest {
 	@Test
 	public void getAttribute() { 
 		
-		Attribute attr =  digraph.attribute("rankdir");
+		Attr attr =  digraph.attr("rankdir");
 		Assert.assertEquals("rankdir",attr.name());
 		Assert.assertEquals(null,attr.value());
 	}
@@ -34,5 +34,31 @@ public class DigraphTest {
 		Node nodeTo = digraph.addNode("nodeTo");
 		Edge edge = digraph.addEdge(nodeFrom, nodeTo);
 		Assert.assertEquals(new Edge(nodeFrom,nodeTo,digraph), edge);
+	}
+	
+	@Test
+	public void testOutput() { 
+	
+		digraph.attr("bgcolor").value("#000");
+		digraph.node().attr("shape").value("doublecircle");
+		digraph.edge().attr("shape").value("folder");
+		Node nodeA = digraph.addNode("nodeA");
+		nodeA.attr("fillcolor").value("#fff");
+		Node nodeB = digraph.addNode("nodeB");
+		nodeB.attr("shape").value("circle");
+		Edge edge = digraph.addEdge(nodeA, nodeB);
+		edge.attr("label").value("change_label");
+		
+		StringBuffer xData = new StringBuffer(" graph [bgcolor = \"#000\"];\n");
+		xData.append(" node [shape = \"doublecircle\"];\n");
+		xData.append(" edge [shape = \"folder\"];\n");
+		xData.append(" nodeB [label = \"nodeB\", shape = \"circle\"];\n");
+		xData.append(" nodeA [label = \"nodeA\", fillcolor = \"#fff\"];\n");
+		xData.append(" nodeA -> nodeB [label = \"change_label\"];\n");
+		
+		StringBuffer out = new StringBuffer("digraph finite_state_machine {\n");
+		out.append(xData).append("}");
+		
+		Assert.assertEquals(out.toString(), digraph.output());
 	}
 }
