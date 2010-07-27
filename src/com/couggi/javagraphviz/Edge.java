@@ -3,7 +3,7 @@ package com.couggi.javagraphviz;
 
 public class Edge implements Component {
 
-	private Graph graph;
+	Graph graph;
 	private Node nodeFrom;
 	private Node nodeTo;
 	private String name;

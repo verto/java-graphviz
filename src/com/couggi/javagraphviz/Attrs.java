@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Attrs {
 
-	private Component componenet;
+	Component component;
 	private Map<String, Attr> data;
 	
 	/**
@@ -15,7 +15,7 @@ public class Attrs {
 	 * 
 	 */
 	public Attrs(Component component) { 
-		this.componenet = component;
+		this.component = component;
 		this.data = new HashMap<String, Attr>();
 	}
 
