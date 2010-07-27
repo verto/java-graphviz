@@ -54,14 +54,14 @@ public class DigraphTest {
 		Edge edge = digraph.addEdge(nodeA, nodeB);
 		edge.attr("label").value("change_label");
 		
-		StringBuffer xData = new StringBuffer(" graph [bgcolor = \"#000\"];\n");
-		xData.append(" node [shape = \"doublecircle\"];\n");
-		xData.append(" edge [shape = \"folder\"];\n");
-		xData.append(" nodeB [label = \"nodeB\", shape = \"circle\"];\n");
-		xData.append(" nodeA [label = \"nodeA\", fillcolor = \"#fff\"];\n");
-		xData.append(" nodeA -> nodeB [label = \"change_label\"];\n");
+		StringBuffer xData = new StringBuffer("graph [bgcolor = \"#000\"];");
+		xData.append(" node [shape = \"doublecircle\"];");
+		xData.append(" edge [shape = \"folder\"];");
+		xData.append(" nodeB [label = \"nodeB\", shape = \"circle\"];");
+		xData.append(" nodeA [label = \"nodeA\", fillcolor = \"#fff\"];");
+		xData.append(" nodeA -> nodeB [label = \"change_label\"];");
 		
-		StringBuffer out = new StringBuffer("digraph finite_state_machine {\n");
+		StringBuffer out = new StringBuffer("digraph finite_state_machine { ");
 		out.append(xData).append("}");
 		
 		Assert.assertEquals(out.toString(), digraph.output());

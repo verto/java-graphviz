@@ -1,13 +1,13 @@
 package com.couggi.javagraphviz;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.couggi.javagraphviz.Digraph;
-import com.couggi.javagraphviz.Graph;
-import com.couggi.javagraphviz.GraphvizEngine;
 
 public class GraphvizEngineTest {
 
@@ -26,9 +26,13 @@ public class GraphvizEngineTest {
 	}
 	
 	@Test
-	public void testOutput() { 
+	public void testOutput() {
+		engine.type("png");
 		graph.addEdge(graph.addNode("Hello"), graph.addNode("World"));
-		String xDotContent = engine.output();
+		engine.fromDirectoryPath(".").toFilePath("xpto");
+		engine.output();
+		File file = new File("xpto");
+		Assert.assertTrue(file.exists());
 		
 	}
 
