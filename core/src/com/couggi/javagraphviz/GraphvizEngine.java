@@ -4,6 +4,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,30 +22,20 @@ public class GraphvizEngine {
 
 	private static final Logger log = Logger.getLogger("net.javagraphviz.GraphvizEngine");
 	
-	private String type;
+	private Map<String,OutputType> type;
 	private Graph graph;
 	/**
 	 * directory path where the dot command will be executed.
 	 */
 	private String directoryPathExecute = ".";
 	
-	private String filePathOutput;
-	
 	/**
 	 * create the engine. type defualt = xdot.
 	 */
 	public GraphvizEngine(Graph graph) {
 		this.graph = graph;
-		this.type = "xdot";
-	}
-
-	/**
-	 * define the type of output
-	 * 
-	 */
-	public GraphvizEngine type(String type) {
-		this.type = type;
-		return this;
+		this.type = new HashMap<String,OutputType>();
+		this.type.put("png",new OutputType("png"));
 	}
 
 	/**
@@ -56,14 +50,22 @@ public class GraphvizEngine {
 		try {
 			String prog = findExecutable("dot");
 			File tmpDot = createDotFileTemp("in",dotContent);
-			String outputPath = filePathOutput;
-			if (outputPath == null) { 
-				File tmpOut = createDotFileTemp("out." + this.type);
-				outputPath = tmpOut.getPath();
-			} 
 			
-			String dotCommand = prog + " -T" + this.type + " -o" + outputPath + " " + tmpDot.getPath();
-			Runtime.getRuntime().exec(dotCommand,null,new File(directoryPathExecute));
+			StringBuffer outputTypes = new StringBuffer();
+			for (OutputType type : this.type.values()){ 
+				outputTypes.append(" -T")
+						   .append(type.name())
+						   .append(" -o")
+						   .append(type.filePath());
+			}
+			
+			String dotCommand = prog + outputTypes + " " + tmpDot.getPath();
+			Process process = Runtime.getRuntime().exec(dotCommand,null,new File(directoryPathExecute));
+			
+			@SuppressWarnings("unused")
+			int exitVal = process.waitFor();
+			
+			
 	      
 		} catch (IOException e) {
 			
@@ -72,6 +74,12 @@ public class GraphvizEngine {
 			}
 			throw new GraphvizOutputException(e.getMessage(),e);
 			
+		} catch (InterruptedException e) {
+			
+			if (log.isLoggable(Level.SEVERE)) {
+				log.log(Level.SEVERE,"command error",e);
+			}
+			throw new GraphvizOutputException(e.getMessage(),e);
 		}
 		
 	}
@@ -110,20 +118,10 @@ public class GraphvizEngine {
 	}
 	
 	/**
-	 * create a file temp.
-	 * 
-	 * @param dotContent
-	 * @return
-	 */
-	private File createDotFileTemp(String suffix) {
-		return createDotFileTemp(suffix,null);
-	}
-
-	/**
 	 * type of output
 	 */
-	public String type() {
-		return this.type;
+	public List<OutputType> types() {
+		return new ArrayList<OutputType>(type.values());
 	}
 
 	/**
@@ -137,13 +135,49 @@ public class GraphvizEngine {
 		return this;
 	}
 
+	
 	/**
-	 * define where the output file will be generated.
+	 * set or add a ouput type.
 	 * 
-	 * @param fileOutput
+	 * @param name
+	 * @return
 	 */
-	public GraphvizEngine toFilePath(String path) {
-		this.filePathOutput = path;
+	public OutputType type(String name) { 
+		
+		OutputType output = type.get(name);
+		if (output == null) { 
+			output = new OutputType(name);
+			type.put(name,output);
+		}
+		
+		return this.type.get(name);
+	}
+	
+	/**
+	 * remove a output type.
+	 */
+	public GraphvizEngine removeType(String name) { 
+		if (type.size() == 1) { 
+			throw new IllegalStateException("must be a type defined.");
+		}
+		
+		type.remove(name);
+		
+		return this;
+	}
+
+	/**
+	 * set filePath of the output type. only used method when exist a output type.
+	 * 
+	 * @param filePath
+	 */
+	public GraphvizEngine toFilePath(String filePath) {
+		if (this.type.size() > 1) { 
+			throw new IllegalStateException("there was more of a type defined.");
+		}
+		
+		this.type.values().iterator().next().toFilePath(filePath);
+		
 		return this;
 	}
 	
