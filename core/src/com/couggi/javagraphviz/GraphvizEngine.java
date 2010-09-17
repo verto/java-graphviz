@@ -94,7 +94,7 @@ public class GraphvizEngine {
 	    	  return file;
 	      }
 	    }
-	    return null;
+	    throw new GraphvizEngineException(prog + " program not found.");
 	}
 	
 	/**
