@@ -44,4 +44,6 @@ public interface Graph extends Component {
 	 * create a edge with two nodes.
 	 */
 	Edge addEdge(Node nodeFrom, Node nodeTo);
+	
+	boolean containsNode(Node node);
 }

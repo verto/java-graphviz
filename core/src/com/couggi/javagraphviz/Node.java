@@ -9,7 +9,7 @@ package com.couggi.javagraphviz;
  */
 public class Node implements Component {
 
-	Graph graph;
+	private Graph graph;
 	private String name;
 	private Attrs attrs;
 	
@@ -111,6 +111,8 @@ public class Node implements Component {
 		return new Node(name);
 	}
 	
-	
+	public Graph graph() { 
+		return graph;
+	}
 
 }

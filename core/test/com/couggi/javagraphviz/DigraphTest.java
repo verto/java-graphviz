@@ -1,14 +1,11 @@
 package com.couggi.javagraphviz;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import com.couggi.javagraphviz.Attr;
-import com.couggi.javagraphviz.Digraph;
-import com.couggi.javagraphviz.Edge;
-import com.couggi.javagraphviz.Node;
+import java.util.Arrays;
 
 import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class DigraphTest {
 
@@ -53,10 +50,20 @@ public class DigraphTest {
 		nodeB.attr("shape").value("circle");
 		Edge edge = digraph.addEdge(nodeA, nodeB);
 		edge.attr("label").value("change_label");
+		SubGraph subGraph = new SubGraph("hello_world");
+		Node hello = subGraph.addNode("hello");
+		Node world = subGraph.addNode("world");
+		subGraph.addEdge(hello, world);
+		digraph.addSubGraph(subGraph);
 		
 		StringBuffer xData = new StringBuffer("graph [bgcolor = \"#000\"];");
 		xData.append(" node [shape = \"doublecircle\"];");
 		xData.append(" edge [shape = \"folder\"];");
+		xData.append("subgraph cluster_hello_world {");
+		xData.append(" hello [label = \"hello\"];");
+		xData.append(" world [label = \"world\"];");
+		xData.append(" hello -> world;");
+		xData.append("}");
 		xData.append(" nodeB [label = \"nodeB\", shape = \"circle\"];");
 		xData.append(" nodeA [label = \"nodeA\", fillcolor = \"#fff\"];");
 		xData.append(" nodeA -> nodeB [label = \"change_label\"];");
@@ -66,4 +73,57 @@ public class DigraphTest {
 		
 		Assert.assertEquals(out.toString(), digraph.output());
 	}
+	
+	@Test
+	public void testAddSubGraph() { 
+		SubGraph subGraph = new SubGraph("G");
+		subGraph.attr("label").value("hello_world");
+		Node hello = subGraph.addNode("hello");
+		Node world = subGraph.addNode("world");
+		subGraph.addEdge(hello, world);
+		
+		digraph.addSubGraph(subGraph);
+		
+		Assert.assertEquals(Arrays.asList(subGraph), digraph.subGraphs());
+	}
+	
+	@Test
+	public void testAddTwoSubGraphAndDefineExternalNodesRelationship() { 
+		SubGraph subGraphOne = new SubGraph("G");
+		subGraphOne.attr("label").value("hello_world");
+		Node hello = subGraphOne.addNode("hello");
+		Node world = subGraphOne.addNode("world");
+		subGraphOne.addEdge(hello, world);
+		Graph subGraphTwo = new Digraph("G");
+		Node cat = subGraphTwo.addNode("cat");
+		Node dog = subGraphTwo.addNode("dog");
+		subGraphTwo.addEdge(cat, dog);
+		digraph.addSubGraph(subGraphOne);
+		
+		Edge edge = digraph.addEdge(hello, dog);
+		
+		Assert.assertEquals(subGraphOne,edge.from().graph());
+		Assert.assertEquals(subGraphTwo,edge.to().graph());
+		
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testValidateIfExistsNodesWhenDefineExternalNodesRelationship() { 
+		SubGraph subGraphOne = new SubGraph("G");
+		subGraphOne.attr("label").value("hello_world");
+		Node hello = subGraphOne.addNode("hello");
+		Node world = subGraphOne.addNode("world");
+		subGraphOne.addEdge(hello, world);
+		SubGraph subGraphTwo = new SubGraph("G");
+		Node cat = subGraphTwo.addNode("cat");
+		Node dog = subGraphTwo.addNode("dog");
+		subGraphTwo.addEdge(cat, dog);
+		digraph.addSubGraph(subGraphOne);
+		Graph graphOrphan = new Digraph("G");
+		Node nodeOphan = graphOrphan.addNode("node_orphan");
+		
+		digraph.addEdge(nodeOphan, dog);
+	}
+	
+	
 }
