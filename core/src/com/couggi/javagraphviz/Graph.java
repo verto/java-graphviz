@@ -36,6 +36,11 @@ public interface Graph extends Component {
 	String type();
 	
 	/**
+	 * @see #type
+	 */
+	String getType();
+	
+	/**
 	 * create a node with name to graph.
 	 */
 	Node addNode(String name);

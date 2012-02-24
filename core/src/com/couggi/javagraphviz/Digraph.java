@@ -141,6 +141,11 @@ public class Digraph implements Graph {
 	public String type() {
 		return "digraph";
 	}
+	
+	@Override
+	public String getType() {
+		return type();
+	}
 
 	@Override
 	public String output() {

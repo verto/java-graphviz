@@ -154,6 +154,13 @@ public class GraphvizEngine {
 	}
 	
 	/**
+	 * @see #type
+	 */
+	public OutputType addType(String name) {
+		return type(name);
+	}
+	
+	/**
 	 * remove a output type.
 	 */
 	public GraphvizEngine removeType(String name) { 
