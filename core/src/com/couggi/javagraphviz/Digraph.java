@@ -18,6 +18,8 @@ public class Digraph implements Graph {
 	
 	private Attrs attrs;
 	
+	private int idCount;
+	
 	/**
 	 * representation of general node attributes 
 	 */
@@ -36,7 +38,7 @@ public class Digraph implements Graph {
 	/**
 	 * edges of the graph
 	 */
-	private Map<String, Edge> edges;
+	private List<Edge> edges;
 	
 	private List<SubGraph> subGraphs;
 	
@@ -50,7 +52,7 @@ public class Digraph implements Graph {
 		this.nodeDefault = Node.getDefault(name);
 		this.edgeDefault = Edge.getDefault(name);
 		this.nodes = new HashMap<String, Node>();
-		this.edges = new HashMap<String, Edge>();
+		this.edges = new ArrayList<Edge>();
 		this.subGraphs = new ArrayList<SubGraph>();
 	}
 
@@ -89,8 +91,9 @@ public class Digraph implements Graph {
 	 * @see net.javagraphviz.Graph#addNode(java.lang.String)
 	 */
 	public Node addNode(String name) {
-		Node node = new Node(name,this);
-		nodes.put(name, node);
+		String id = nodes.containsKey(name) ? name + idCount++ : name;
+		Node node = new Node(name, id, this);
+		nodes.put(id, node);
 		return node;
 	}
 
@@ -101,7 +104,7 @@ public class Digraph implements Graph {
 		if (!containsNode(nodeFrom) || !containsNode(nodeFrom))
 			throw new IllegalArgumentException("nodes not found");
 		Edge edge = new Edge(nodeFrom,nodeTo,this);
-		edges.put(edge.name(),edge);
+		edges.add(edge);
 		return edge;
 	}
 
@@ -125,7 +128,7 @@ public class Digraph implements Graph {
 
 	@Override
 	public List<Edge> edges() {
-		return new ArrayList<Edge>(this.edges.values());
+		return new ArrayList<Edge>(this.edges);
 	}
 
 	@Override
