@@ -154,7 +154,7 @@ public class GraphvizEngine {
 	}
 	
 	/**
-	 * @see #type
+	 * @see #type(String name)
 	 */
 	public OutputType addType(String name) {
 		return type(name);
