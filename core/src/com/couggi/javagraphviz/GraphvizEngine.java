@@ -134,16 +134,11 @@ public class GraphvizEngine {
 		this.directoryPathExecute = path;
 		return this;
 	}
-
 	
 	/**
-	 * set or add a ouput type.
-	 * 
-	 * @param name
-	 * @return
+	 * set or add a output type.
 	 */
-	public OutputType type(String name) { 
-		
+	public OutputType addType(String name) {
 		OutputType output = type.get(name);
 		if (output == null) { 
 			output = new OutputType(name);
@@ -151,13 +146,6 @@ public class GraphvizEngine {
 		}
 		
 		return this.type.get(name);
-	}
-	
-	/**
-	 * @see #type(String name)
-	 */
-	public OutputType addType(String name) {
-		return type(name);
 	}
 	
 	/**

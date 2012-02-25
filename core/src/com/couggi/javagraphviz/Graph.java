@@ -33,11 +33,6 @@ public interface Graph extends Component {
 	/**
 	 * type of the Graph componenet (graph, digraph.. etc)
 	 */
-	String type();
-	
-	/**
-	 * @see #type
-	 */
 	String getType();
 	
 	/**

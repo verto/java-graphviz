@@ -139,15 +139,10 @@ public class Digraph implements Graph {
 	public List<SubGraph> subGraphs() { 
 		return this.subGraphs;
 	}
-
-	@Override
-	public String type() {
-		return "digraph";
-	}
 	
 	@Override
 	public String getType() {
-		return type();
+		return "digraph";
 	}
 
 	@Override
@@ -212,7 +207,7 @@ public class Digraph implements Graph {
 	    }
 	    
 	    // structure final
-	    xDOTScript = new StringBuffer(this.type())
+	    xDOTScript = new StringBuffer(this.getType())
 	    				          .append(" ")
 	    				          .append(this.name())
 	    				          .append(" {")
