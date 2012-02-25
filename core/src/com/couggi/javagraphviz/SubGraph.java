@@ -7,7 +7,7 @@ public class SubGraph extends Digraph {
 	}
 	
 	@Override
-	public String type() {
+	public String getType() {
 		return "subgraph";
 	}
 

@@ -33,7 +33,7 @@ public interface Graph extends Component {
 	/**
 	 * type of the Graph componenet (graph, digraph.. etc)
 	 */
-	String type();
+	String getType();
 	
 	/**
 	 * create a node with name to graph.
