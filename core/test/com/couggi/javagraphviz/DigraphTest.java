@@ -39,6 +39,42 @@ public class DigraphTest {
 	}
 	
 	@Test
+	public void multipleNodes() {
+		Node a = digraph.addNode("nodeA");
+		Node b = digraph.addNode("nodeA");
+		digraph.addEdge(a, b);
+		
+		StringBuffer xData = new StringBuffer();
+		xData.append("nodeA [label = \"nodeA\"]; ");
+		xData.append("nodeA0 [label = \"nodeA\"]; ");
+		xData.append("nodeA -> nodeA0;");
+		
+		StringBuffer out = new StringBuffer("digraph finite_state_machine { ");
+		out.append(xData).append("}");
+		
+		Assert.assertEquals(out.toString(), digraph.output());
+	}
+	
+	@Test
+	public void multipleEdges() {
+		Node a = digraph.addNode("nodeA");
+		Node b = digraph.addNode("nodeB");
+		digraph.addEdge(a, b);
+		digraph.addEdge(a, b);
+		
+		StringBuffer xData = new StringBuffer();
+		xData.append("nodeB [label = \"nodeB\"]; ");
+		xData.append("nodeA [label = \"nodeA\"]; ");
+		xData.append("nodeA -> nodeB; ");
+		xData.append("nodeA -> nodeB;");
+		
+		StringBuffer out = new StringBuffer("digraph finite_state_machine { ");
+		out.append(xData).append("}");
+		
+		Assert.assertEquals(out.toString(), digraph.output());
+	}
+	
+	@Test
 	public void testOutput() { 
 	
 		digraph.attr("bgcolor").value("#000");

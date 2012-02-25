@@ -28,7 +28,7 @@ public class GraphvizEngineTest {
 	
 	@Test
 	public void testOutput() {
-		engine.type("png");
+		engine.addType("png");
 		graph.addEdge(graph.addNode("Hello"), graph.addNode("World"));
 		engine.fromDirectoryPath(".");
 		engine.output();
@@ -40,8 +40,8 @@ public class GraphvizEngineTest {
 	@Test
 	public void testTwoOutputFiles() { 
 		
-		engine.type("png").toFilePath("xpto.png");
-		engine.type("imap").toFilePath("xpto.map");
+		engine.addType("png").toFilePath("xpto.png");
+		engine.addType("imap").toFilePath("xpto.map");
 		graph.addEdge(graph.addNode("Hello"), graph.addNode("World"));
 		engine.fromDirectoryPath(".");
 		engine.output();

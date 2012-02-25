@@ -26,9 +26,13 @@ public class Node implements Component {
 	 * create a node with name
 	 */
 	public Node(String name, Graph graph) {
-		this(name);
+		this(name, name, graph);
+	}
+	
+	public Node(String label, String id, Graph graph) {
+		this(id);
 		this.graph = graph;
-		this.attr("label").value(this.name());
+		this.attr("label").value(label);
 	}
 	
 	/* 
