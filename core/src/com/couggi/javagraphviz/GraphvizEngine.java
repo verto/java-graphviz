@@ -24,6 +24,8 @@ public class GraphvizEngine {
 	
 	private Map<String,OutputType> type;
 	private Graph graph;
+	private String layoutManager;
+	
 	/**
 	 * directory path where the dot command will be executed.
 	 */
@@ -36,6 +38,7 @@ public class GraphvizEngine {
 		this.graph = graph;
 		this.type = new HashMap<String,OutputType>();
 		this.type.put("png",new OutputType("png"));
+		this.layoutManager = "dot";
 	}
 
 	/**
@@ -48,7 +51,7 @@ public class GraphvizEngine {
 		String dotContent = graph.output();
 		
 		try {
-			String prog = findExecutable("dot");
+			String prog = findExecutable(layoutManager);
 			File tmpDot = createDotFileTemp("in",dotContent);
 			
 			StringBuffer outputTypes = new StringBuffer();
@@ -158,6 +161,14 @@ public class GraphvizEngine {
 		
 		type.remove(name);
 		
+		return this;
+	}
+	
+	/**
+	 * Set the layout manager. Available options are: dot, neato, fdp, sfdp, twopi, circo
+	 */
+	public GraphvizEngine layout(String layoutManager) {
+		this.layoutManager = layoutManager;
 		return this;
 	}
 

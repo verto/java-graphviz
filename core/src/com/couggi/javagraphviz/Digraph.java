@@ -107,6 +107,12 @@ public class Digraph implements Graph {
 		edges.add(edge);
 		return edge;
 	}
+	
+	public Edge addUndirectedEdge(Node nodeA, Node nodeB) {
+		Edge edge = addEdge(nodeA, nodeB);
+		edge.attr("dir").value("none");
+		return edge;
+	}
 
 	
 	public boolean containsNode(Node node) {
