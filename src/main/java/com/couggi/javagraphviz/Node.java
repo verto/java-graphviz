@@ -38,7 +38,6 @@ public class Node implements Component {
 	/* 
 	 * @see net.javagraphviz.Component#attribute(java.lang.String)
 	 */
-	@Override
 	public Attr attr(String name) {
 		return this.attrs.get(name);
 	}
@@ -46,7 +45,6 @@ public class Node implements Component {
 	/* 
 	 * @see net.javagraphviz.Component#attributes()
 	 */
-	@Override
 	public Attrs attrs() {
 		return this.attrs;
 	}
@@ -83,11 +81,10 @@ public class Node implements Component {
 		return true;
 	}
 
-	@Override
 	public String output() {
 		
-		StringBuffer xOut = new StringBuffer(this.name);
-	    StringBuffer xAttr = new StringBuffer("");
+		StringBuilder xOut = new StringBuilder(this.name);
+	    StringBuilder xAttr = new StringBuilder("");
 	    String xSeparator = "";
 	    
 	    for (Attr attrs : this.attrs.list()) {   

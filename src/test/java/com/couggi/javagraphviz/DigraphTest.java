@@ -44,12 +44,12 @@ public class DigraphTest {
 		Node b = digraph.addNode("nodeA");
 		digraph.addEdge(a, b);
 		
-		StringBuffer xData = new StringBuffer();
+		StringBuilder xData = new StringBuilder();
 		xData.append("nodeA [label = \"nodeA\"]; ");
 		xData.append("nodeA0 [label = \"nodeA\"]; ");
 		xData.append("nodeA -> nodeA0;");
 		
-		StringBuffer out = new StringBuffer("digraph finite_state_machine { ");
+		StringBuilder out = new StringBuilder("digraph finite_state_machine { ");
 		out.append(xData).append("}");
 		
 		Assert.assertEquals(out.toString(), digraph.output());
@@ -62,13 +62,13 @@ public class DigraphTest {
 		digraph.addEdge(a, b);
 		digraph.addEdge(a, b);
 		
-		StringBuffer xData = new StringBuffer();
+		StringBuilder xData = new StringBuilder();
 		xData.append("nodeB [label = \"nodeB\"]; ");
 		xData.append("nodeA [label = \"nodeA\"]; ");
 		xData.append("nodeA -> nodeB; ");
 		xData.append("nodeA -> nodeB;");
 		
-		StringBuffer out = new StringBuffer("digraph finite_state_machine { ");
+		StringBuilder out = new StringBuilder("digraph finite_state_machine { ");
 		out.append(xData).append("}");
 		
 		Assert.assertEquals(out.toString(), digraph.output());
@@ -92,7 +92,7 @@ public class DigraphTest {
 		subGraph.addEdge(hello, world);
 		digraph.addSubGraph(subGraph);
 		
-		StringBuffer xData = new StringBuffer("graph [bgcolor = \"#000\"];");
+		StringBuilder xData = new StringBuilder("graph [bgcolor = \"#000\"];");
 		xData.append(" node [shape = \"doublecircle\"];");
 		xData.append(" edge [shape = \"folder\"];");
 		xData.append("subgraph cluster_hello_world {");
@@ -104,7 +104,7 @@ public class DigraphTest {
 		xData.append(" nodeA [label = \"nodeA\", fillcolor = \"#fff\"];");
 		xData.append(" nodeA -> nodeB [label = \"change_label\"];");
 		
-		StringBuffer out = new StringBuffer("digraph finite_state_machine { ");
+		StringBuilder out = new StringBuilder("digraph finite_state_machine { ");
 		out.append(xData).append("}");
 		
 		Assert.assertEquals(out.toString(), digraph.output());

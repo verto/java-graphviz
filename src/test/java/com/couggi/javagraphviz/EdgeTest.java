@@ -26,9 +26,9 @@ public class EdgeTest {
 		
 		edge.attr("shape").value("folder");
 		
-		StringBuffer xAttr = new StringBuffer("");
+		StringBuilder xAttr = new StringBuilder("");
 		xAttr.append("shape" + " = " + "\"folder\"");
-		StringBuffer xOut = new StringBuffer("nodeA -> nodeB [" + xAttr.toString() + "];");
+		StringBuilder xOut = new StringBuilder("nodeA -> nodeB [" + xAttr.toString() + "];");
 		
 		assertEquals(xOut.toString(), edge.output());
 	}

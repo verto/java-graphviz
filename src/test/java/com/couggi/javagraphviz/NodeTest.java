@@ -23,11 +23,11 @@ public class NodeTest {
 		node.attr("shape").value("doublecircle");
 		node.attr("color").value("#000");
 		
-		StringBuffer xAttr = new StringBuffer("");
+		StringBuilder xAttr = new StringBuilder("");
 		xAttr.append("color" + " = " + "\"#000\"");
 		xAttr.append(", label" + " = " + "\"nodeTest\"");
 		xAttr.append(", shape" + " = " + "\"doublecircle\"");
-		StringBuffer xOut = new StringBuffer("nodeTest [" + xAttr.toString() + "];");
+		StringBuilder xOut = new StringBuilder("nodeTest [" + xAttr.toString() + "];");
 		
 		assertEquals(xOut.toString(), node.output());
 	}

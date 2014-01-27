@@ -13,7 +13,6 @@ public class EscString implements AttrType {
 		return this.value;
 	}
 
-	@Override
 	public String toGv() {
 		return "\""+ this.value + "\"";
 	}
