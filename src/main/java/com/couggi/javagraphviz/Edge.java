@@ -51,7 +51,6 @@ public class Edge implements Component {
 	/* 
 	 * @see net.javagraphviz.Component#attribute(java.lang.String)
 	 */
-	@Override
 	public Attr attr(String name) {
 		return this.attrs.get(name);
 	}
@@ -59,7 +58,6 @@ public class Edge implements Component {
 	/* 
 	 * @see net.javagraphviz.Component#attributes()
 	 */
-	@Override
 	public Attrs attrs() {
 		return this.attrs;
 	}
@@ -96,7 +94,6 @@ public class Edge implements Component {
 		return true;
 	}
 
-	@Override
 	public String output() {
 
 		String xLink = " -> ";
@@ -104,8 +101,8 @@ public class Edge implements Component {
 		String xNodeNameOne = this.nodeFrom.name();
 		String xNodeNameTwo = this.nodeTo.name();
   
-		StringBuffer xOut = new StringBuffer(xNodeNameOne + xLink + xNodeNameTwo);
-		StringBuffer xAttr = new StringBuffer("");
+		StringBuilder xOut = new StringBuilder(xNodeNameOne + xLink + xNodeNameTwo);
+		StringBuilder xAttr = new StringBuilder("");
 		String xSeparator = "";
 		
 		for (Attr attrs : this.attrs.list()) {	  

@@ -54,7 +54,7 @@ public class GraphvizEngine {
 			String prog = findExecutable(layoutManager);
 			File tmpDot = createDotFileTemp("in",dotContent);
 			
-			StringBuffer outputTypes = new StringBuffer();
+			StringBuilder outputTypes = new StringBuilder();
 			for (OutputType type : this.type.values()){ 
 				outputTypes.append(" -T")
 						   .append(type.name())

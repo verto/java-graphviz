@@ -66,7 +66,6 @@ public class Digraph implements Graph {
 	/* 
 	 * @see net.javagraphviz.Component#attributes()
 	 */
-	@Override
 	public Attrs attrs() {
 		return this.attrs;
 	}
@@ -132,12 +131,10 @@ public class Digraph implements Graph {
 		return this.edgeDefault;
 	}
 
-	@Override
 	public List<Edge> edges() {
 		return new ArrayList<Edge>(this.edges);
 	}
 
-	@Override
 	public List<Node> nodes() {
 		return new ArrayList<Node>(this.nodes.values());
 	}
@@ -146,17 +143,15 @@ public class Digraph implements Graph {
 		return this.subGraphs;
 	}
 	
-	@Override
 	public String getType() {
 		return "digraph";
 	}
 
-	@Override
 	public String output() {
 		
-		StringBuffer xDOTScript = new StringBuffer("");
+		StringBuilder xDOTScript = new StringBuilder("");
 	    String xSeparator = "";
-	    StringBuffer xData = new StringBuffer("");
+	    StringBuilder xData = new StringBuilder("");
 	    
 	    // mount the graph attributes
 	    if (!this.attrs.list().isEmpty()) {
@@ -169,7 +164,7 @@ public class Digraph implements Graph {
 	    
 	    //reset variables
 	    xSeparator = "";
-	    xData = new StringBuffer("");
+	    xData = new StringBuilder("");
 	    
 	    // mount the node attributes
 	    if (!this.node().attrs().list().isEmpty()) { 
@@ -182,7 +177,7 @@ public class Digraph implements Graph {
 	    
 	    //reset variables
 	    xSeparator = "";
-	    xData = new StringBuffer("");
+	    xData = new StringBuilder("");
 	    
 	    // mount the edge attributes
 	    if (!this.edge().attrs().list().isEmpty()) {
@@ -195,7 +190,7 @@ public class Digraph implements Graph {
 	    
 	    //reset variables
 	    xSeparator = "";
-	    xData = new StringBuffer("");
+	    xData = new StringBuilder("");
 	    
 	    // mount the subgraph
 	    for (SubGraph subGraph : subGraphs) { 
@@ -213,7 +208,7 @@ public class Digraph implements Graph {
 	    }
 	    
 	    // structure final
-	    xDOTScript = new StringBuffer(this.getType())
+	    xDOTScript = new StringBuilder(this.getType())
 	    				          .append(" ")
 	    				          .append(this.name())
 	    				          .append(" {")
